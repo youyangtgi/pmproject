@@ -5,9 +5,80 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #F0F2F5;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* 全局滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* 清除链接默认样式 */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 卡片悬停样式 */
+.hover-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+/* Ant Design组件自定义样式覆盖 */
+.ant-menu-item-selected {
+  background-color: rgba(51, 112, 255, 0.1) !important;
+  color: #3370FF !important;
+}
+
+.ant-btn-primary {
+  background-color: #3370FF;
+}
+
+.ant-btn-primary:hover {
+  background-color: #5B8CFF;
+}
+
+.ant-card {
+  border-radius: 4px;
+}
+
+/* 自定义卡片样式 */
+.stat-card {
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.team-achievement-card, .team-progress-card {
+  transition: all 0.3s ease;
+}
+
+.team-achievement-card:hover, .team-progress-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }

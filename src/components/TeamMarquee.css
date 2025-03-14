@@ -1,0 +1,73 @@
+.team-marquee-container {
+  width: 100%;
+  overflow: hidden;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 24px;
+  border: 1px solid #e8e8e8;
+  position: relative;
+}
+
+.team-marquee-container::before,
+.team-marquee-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 40px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.team-marquee-container::before {
+  left: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.team-marquee-container::after {
+  right: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+}
+
+.team-marquee-header {
+  background-color: #0F2656;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.team-marquee-content {
+  padding: 16px 48px;
+  overflow: hidden;
+  position: relative;
+}
+
+.team-marquee-track {
+  display: flex;
+  animation: marquee 60s linear infinite;
+  width: max-content;
+}
+
+.team-marquee-item {
+  flex-shrink: 0;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* 移动距离为复制前的items总宽度 */
+    transform: translateX(-50%);
+  }
+}
+
+/* 暂停动画效果（鼠标悬停时） */
+.team-marquee-container:hover .team-marquee-track {
+  animation-play-state: paused;
+} 
