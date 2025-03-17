@@ -1,0 +1,68 @@
+{
+  "rank_title": "开发效率",
+  "rank_sub_title": "2025年3月数据",
+  "rank_total": 5,
+  "project": {
+    "project": "项目A",
+    "month": {
+      "month": "3月"
+    }
+  },
+  "data_types": [
+    {"id": 1, "type_name": "完成任务数"},
+    {"id": 2, "type_name": "得分"}
+  ],
+  "team_name": "研发团队",
+  "details": {
+    "rank1": [
+      {
+        "id": 101,
+        "user_name": "张三",
+        "data_values": [
+          {"id": 1, "data_value": "20"},
+          {"id": 2, "data_value": "95"}
+        ]
+      }
+    ],
+    "rank2": [
+      {
+        "id": 102,
+        "user_name": "李四",
+        "data_values": [
+          {"id": 1, "data_value": "18"},
+          {"id": 2, "data_value": "90"}
+        ]
+      }
+    ],
+    "rank3": [
+      {
+        "id": 103,
+        "user_name": "王五",
+        "data_values": [
+          {"id": 1, "data_value": "15"},
+          {"id": 2, "data_value": "85"}
+        ]
+      }
+    ],
+    "rank4": [
+      {
+        "id": 104,
+        "user_name": "赵六",
+        "data_values": [
+          {"id": 1, "data_value": "12"},
+          {"id": 2, "data_value": "80"}
+        ]
+      }
+    ],
+    "rank5": [
+      {
+        "id": 105,
+        "user_name": "钱七",
+        "data_values": [
+          {"id": 1, "data_value": "10"},
+          {"id": 2, "data_value": "75"}
+        ]
+      }
+    ]
+  }
+} 

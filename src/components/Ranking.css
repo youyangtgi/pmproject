@@ -1,0 +1,187 @@
+/* 排行榜样式 */
+.leaderboard-container {
+  width: 600px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  overflow: hidden;
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.leaderboard-title {
+  background: linear-gradient(90deg, #1677FF 0%, #0F2656 100%);
+  color: #fff;
+  padding: 10px 15px;
+}
+
+.leaderboard-title-text {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.leaderboard-body {
+  padding: 0;
+}
+
+.leaderboard-header {
+  position: relative;
+  background: url('./ranking-img/header_bg.jpeg') no-repeat;
+  background-size: cover;
+  padding: 15px;
+  color: #fff;
+  height: 140px;
+}
+
+.header-label {
+  display: inline-block;
+  background: url('./ranking-img/month.png') no-repeat;
+  background-size: contain;
+  width: 50px;
+  height: 25px;
+  text-align: center;
+  line-height: 25px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.header-flex-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-size: 24px;
+}
+
+.header-title-p1 {
+  margin-right: 8px;
+}
+
+.top-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: url('./ranking-img/top.png') no-repeat;
+  background-size: contain;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge-label {
+  color: #fff;
+  font-weight: 600;
+  font-size: 11px;
+  margin-top: -10px;
+}
+
+.sub-title {
+  margin: 8px 0 0;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.leaderboard-list-wrap {
+  padding: 0 15px 15px;
+  overflow-x: hidden; /* 隐藏横向滚动条 */
+}
+
+.leaderboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.leaderboard-item {
+  display: flex;
+  border-bottom: 1px solid #f0f0f0;
+  padding: 8px 0;
+  align-items: center;
+  font-size: 13px;
+}
+
+.leaderboard-item:last-child {
+  border-bottom: none;
+}
+
+.leaderboard-item span {
+  flex: 1;
+  text-align: center;
+  padding: 0 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 60px; /* 确保每列有最小宽度 */
+}
+
+.leaderboard-item span:first-child {
+  flex: 2;
+  text-align: left;
+}
+
+.header-column {
+  font-weight: 600;
+  color: #333;
+}
+
+.rank-badge {
+  width: 24px;
+  height: 24px;
+  display: block;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.rank-1 .rank-badge {
+  background-image: url('./ranking-img/top1.png');
+}
+
+.rank-2 .rank-badge {
+  background-image: url('./ranking-img/top2.png');
+}
+
+.rank-3 .rank-badge {
+  background-image: url('./ranking-img/top3.png');
+}
+
+.rank-text {
+  font-size: 16px;
+  font-weight: bold;
+  color: #666;
+  margin-right: 5px;
+}
+
+.user-name {
+  font-weight: 500;
+}
+
+.user-score {
+  font-weight: 600;
+  color: #1677FF;
+  font-size: 12px;
+}
+
+.user-score .ant-tag {
+  margin-right: 0;
+  font-weight: 600;
+}
+
+.rank-1 {
+  background-color: rgba(255, 215, 0, 0.05);
+}
+
+.rank-2 {
+  background-color: rgba(192, 192, 192, 0.05);
+}
+
+.rank-3 {
+  background-color: rgba(205, 127, 50, 0.05);
+} 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Row, Col, Statistic, Button, Modal, List, Avatar, Tabs } from 'antd';
 import { DollarCircleFilled, TeamOutlined, UserOutlined, TrophyOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 // 模拟排行数据
 const weeklyRankings = [
@@ -39,6 +40,7 @@ const ContributionDisplay = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalType, setModalType] = useState('personal');
   const [timeRange, setTimeRange] = useState('week');
+  const navigate = useNavigate();
   
   const showModal = (type, range) => {
     setModalType(type);
@@ -50,6 +52,11 @@ const ContributionDisplay = () => {
     setIsModalOpen(false);
   };
   
+  // 跳转到排行榜页面
+  const goToRanking = (type) => {
+    navigate('/ranking', { state: { defaultTab: type } });
+  };
+
   // 获取对应的排行数据
   const getRankingData = () => {
     if (modalType === 'personal') {
@@ -124,7 +131,7 @@ const ContributionDisplay = () => {
                 type="default" 
                 size="small" 
                 style={buttonStyle}
-                onClick={() => showModal('team', 'week')}
+                onClick={() => goToRanking('team')}
               >
                 本周排行
               </Button>

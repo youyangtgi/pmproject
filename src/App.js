@@ -5,6 +5,7 @@ import zhCN from 'antd/lib/locale/zh_CN';
 import AppHeader from './components/AppHeader';
 import AppSidebar from './components/AppSidebar';
 import Dashboard from './pages/Dashboard';
+import RankingPage from './pages/RankingPage';
 import { fetchCurrentUser } from './services/api';
 import './App.css';
 
@@ -61,6 +62,7 @@ const App = () => {
             }}>
               <Routes>
                 <Route path="/" element={<Dashboard />} />
+                <Route path="/ranking" element={<RankingPage />} />
                 {/* 其他路由将在后续添加 */}
                 {/* 默认重定向到Dashboard */}
                 <Route path="*" element={<Navigate to="/" replace />} />
