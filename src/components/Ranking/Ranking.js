@@ -136,9 +136,18 @@ const Ranking = (props) => {
                 <li key={key} className={`leaderboard-item rank-${rank}`}>
                   {/* 第1列 - 战队名称 */}
                   <div style={{ width: '180px', display: 'flex', alignItems: 'center' }}>
-                    <div style={{ width: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                      {rank > 3 && <span className="rank-text">{rank}</span>}
-                      <span className="rank-badge" />
+                    <div style={{ width: '40px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {/* 显示所有排名的数字，不仅仅是rank>3 */}
+                      {rank <= 3 ? (
+                        /* 前三名只显示特殊背景 */
+                        <div className="rank-badge" />
+                      ) : (
+                        /* 4-10名显示普通背景和数字 */
+                        <div className="rank-number-container">
+                          <div className="rank-badge rank-normal"></div>
+                          <div className="rank-number">{rank}</div>
+                        </div>
+                      )}
                     </div>
                     <div style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis' }}>
                       {userName}

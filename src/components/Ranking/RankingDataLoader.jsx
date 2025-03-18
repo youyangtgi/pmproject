@@ -6,6 +6,9 @@ const readJSON = async (file) => {
   try {
     console.log("尝试加载JSON:", file);
     const response = await fetch(file);
+    if (!response.ok) {
+      throw new Error(`HTTP错误! 状态码: ${response.status}`);
+    }
     return await response.json();
   } catch (error) {
     console.error("JSON加载错误:", error, "文件路径:", file);
@@ -14,20 +17,25 @@ const readJSON = async (file) => {
 };
 
 // 将简单CSV转换为复杂结构 - 完全重写
-const convertCSVToRankingData = (csvData) => {
-  // 解析CSV数据
-  const lines = csvData.trim().split('\n');
+const convertCSVToRankingData = (csvData, allData, subtitle) => {
+  // 解析CSV数据，处理不同操作系统的换行符
+  const lines = csvData.trim().split(/\r?\n/).filter(line => line.trim());
   const headers = lines[0].split(',');
   
   console.log("CSV原始头部:", headers);
-  console.log("CSV原始数据示例:", lines[1]);
+  if (lines.length > 1) {
+    console.log("CSV原始数据示例:", lines[1]);
+  }
   
   // 从第一行数据中提取配置信息
   const firstDataRow = lines[1]?.split(',') || [];
   const title = firstDataRow[0] || '排行榜';
   const month = firstDataRow[1] || '3月';
   const rankTotal = parseInt(firstDataRow[2] || '5', 10);
-  const rankSubTitle = firstDataRow[3] || `${month}数据`;
+  const rankSubTitle = subtitle || firstDataRow[3] || `${month}数据`;
+  
+  // 仅使用子标题，不再添加额外信息
+  const fullSubTitle = rankSubTitle;
   
   // 提取用于展示的5列数据 (索引4-8对应CSV的第5-9列)
   const col1Header = headers[4] || '战队名称';  // CSV第5列作为排行榜第1列
@@ -97,7 +105,7 @@ const convertCSVToRankingData = (csvData) => {
   // 构建最终数据结构
   const result = {
     rank_title: title,
-    rank_sub_title: rankSubTitle,
+    rank_sub_title: fullSubTitle,
     rank_total: rankTotal,
     project: {
       project: "",
@@ -114,36 +122,46 @@ const convertCSVToRankingData = (csvData) => {
   return result;
 };
 
-// 从CSV读取数据并转换
+// 读取 CSV 文件
 const readCSV = async (file) => {
   try {
     console.log("尝试加载CSV文件:", file);
     const response = await fetch(file);
-    
     if (!response.ok) {
-      console.error("CSV文件加载失败:", response.status, response.statusText);
-      throw new Error(`CSV加载失败: ${response.status} ${response.statusText}`);
+      console.error(`CSV加载HTTP错误! 状态码: ${response.status}`);
+      throw new Error(`无法加载CSV文件: ${file}, 状态码: ${response.status}`);
     }
-    
-    const text = await response.text();
-    console.log("CSV文件加载成功, 内容长度:", text.length);
-    console.log("CSV前200字符:", text.substring(0, 200));
-    
-    if (!text || text.trim().length === 0) {
-      console.error("警告: 加载的CSV内容为空!");
-      throw new Error("CSV内容为空");
-    }
-    
-    return convertCSVToRankingData(text);
+    return await response.text();
   } catch (error) {
-    console.error("CSV读取或解析错误:", error);
-    throw error;
+    console.error("CSV加载错误:", error, "文件路径:", file);
+    // 在GitHub Pages环境中，尝试使用备用路径
+    if (window.location.hostname.includes('github.io')) {
+      try {
+        console.log("尝试使用备用路径加载CSV...");
+        // 尝试不同的路径组合
+        const alternativePath = file.replace(process.env.PUBLIC_URL, '');
+        console.log("尝试备用路径:", alternativePath);
+        const response = await fetch(alternativePath);
+        if (!response.ok) {
+          throw new Error(`备用路径也失败了: ${alternativePath}`);
+        }
+        console.log("备用路径成功!");
+        return await response.text();
+      } catch (backupError) {
+        console.error("备用CSV加载也失败:", backupError);
+        throw error; // 仍然抛出原始错误
+      }
+    } else {
+      throw error;
+    }
   }
 };
 
 const RankingDataLoader = ({ 
   dataSource,
-  type = 'csv' // 默认为csv
+  type = 'csv', // 默认为csv
+  row, // 用于指定加载特定行的数据
+  subtitle // 新增参数，接收自定义子标题
 }) => {
   const [rankingData, setRankingData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -153,28 +171,93 @@ const RankingDataLoader = ({
     const loadData = async () => {
       try {
         setLoading(true);
-        let data;
         
-        console.log("加载数据源:", dataSource, "类型:", type);
+        console.log("加载数据源:", dataSource, "类型:", type, "行号:", row, "子标题:", subtitle);
         
+        // 在GitHub Pages环境下可能需要特殊处理
+        const isGitHubPages = window.location.hostname.includes('github.io');
+        console.log("是否在GitHub Pages环境:", isGitHubPages);
+        
+        let rawData;
         if (type === 'csv') {
-          data = await readCSV(dataSource);
-        } else {
-          data = await readJSON(dataSource);
+          rawData = await readCSV(dataSource);
+          console.log("CSV文件加载成功, 内容长度:", rawData.length);
+          console.log("CSV前200字符:", rawData.substring(0, 200));
+          
+          if (!rawData || rawData.trim().length === 0) {
+            console.error("警告: 加载的CSV内容为空!");
+            throw new Error("CSV内容为空");
+          }
+          
+          // 解析CSV数据
+          const lines = rawData.trim().split(/\r?\n/).filter(line => line.trim());
+          const headers = lines[0].split(',');
+          
+          // 如果指定了行号，加载整个排行榜数据
+          let csvData;
+          if (row !== undefined && row > 0 && row < lines.length) {
+            // 获取当前行的排行榜标题和其他筛选条件
+            const currentLine = lines[row];
+            const values = currentLine.split(',');
+            const rankingTitle = values[0];
+            const cycle = values[9] || '';
+            const year = values[10] || '';
+            const period = values[11] || '';
+            const group = values[12] || '';
+            
+            // 找出所有具有相同标题和筛选条件的行
+            let matchingRows = [];
+            for (let i = 1; i < lines.length; i++) {
+              const lineValues = lines[i].split(',');
+              if (lineValues[0] === rankingTitle &&
+                  lineValues[9] === cycle && 
+                  lineValues[10] === year && 
+                  lineValues[11] === period &&
+                  lineValues[12] === group) {
+                matchingRows.push(i);
+              }
+            }
+            
+            // 创建只包含标题行和排行榜数据行的CSV
+            let filteredCsv = lines[0] + '\n';
+            matchingRows.forEach(rowIdx => {
+              filteredCsv += lines[rowIdx] + '\n';
+            });
+            
+            csvData = filteredCsv.trim();
+            console.log(`加载排行榜"${rankingTitle}"的${matchingRows.length}行数据`);
+          } else {
+            csvData = rawData;
+          }
+          
+          // 转换CSV数据为排行榜格式，传入自定义子标题
+          const rankData = convertCSVToRankingData(csvData, rawData, subtitle);
+          setRankingData(rankData);
+        } else if (type === 'json') {
+          rawData = await readJSON(dataSource);
+          setRankingData(rawData);
         }
         
-        console.log("最终排行榜数据结构:", JSON.stringify(data, null, 2));
-        setRankingData(data);
       } catch (err) {
         console.error("加载排行榜数据失败:", err);
         setError(err.message);
+        
+        // 如果加载失败，显示一些调试信息
+        if (window.location.hostname.includes('github.io')) {
+          console.log("GitHub Pages环境加载失败，尝试显示更多调试信息:");
+          console.log("- URL:", window.location.href);
+          console.log("- PUBLIC_URL:", process.env.PUBLIC_URL);
+          console.log("- 尝试的数据源路径:", dataSource);
+          console.log("- 行号:", row);
+          console.log("- 子标题:", subtitle);
+        }
       } finally {
         setLoading(false);
       }
     };
     
     loadData();
-  }, [dataSource, type]);
+  }, [dataSource, type, row, subtitle]);
   
   if (loading) return <div>加载中...</div>;
   if (error) return <div>加载失败: {error}</div>;

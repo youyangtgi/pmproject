@@ -1,0 +1,167 @@
+/* 排行榜页面样式 */
+.ranking-page {
+  padding: 20px;
+}
+
+/* 内容区域 - 使用flexbox布局 */
+.ranking-content {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+}
+
+/* 侧边栏容器 */
+.ranking-sidebar-container {
+  width: 280px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+/* 筛选器区域 */
+.ranking-filters {
+  background-color: #f7f7f7;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  width: 280px;
+}
+
+.filter-item {
+  margin-bottom: 15px;
+}
+
+.filter-label {
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.filter-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Select组件高度覆盖 */
+.ranking-filters .ant-select-selector {
+  height: 30px !important;
+}
+
+.ranking-filters .ant-select-selection-item {
+  line-height: 28px !important;
+}
+
+/* 左侧排行榜列表 */
+.ranking-sidebar {
+  width: 280px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.group-count-info {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px dashed #ddd;
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 5px;
+  font-weight: 500;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 8px;
+}
+
+.group-header:hover {
+  background-color: #f0f0f0;
+}
+
+.group-title {
+  margin-left: 5px;
+  flex: 1;
+}
+
+.group-count {
+  font-size: 12px;
+  color: #888;
+  margin-left: 5px;
+}
+
+.group-content {
+  padding-left: 10px;
+  margin-bottom: 15px;
+}
+
+.ranking-item {
+  display: flex;
+  align-items: center;
+  padding: 5px 0;
+}
+
+.ranking-item-checkbox {
+  margin-right: 8px;
+}
+
+.ranking-item-label {
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 220px;
+}
+
+.no-rankings-message {
+  color: #999;
+  padding: 15px 0;
+  text-align: center;
+  font-style: italic;
+}
+
+/* 右侧排行榜显示区 */
+.ranking-display {
+  flex: 1;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  min-width: 0; /* 确保flex子项正确缩小 */
+}
+
+.ranking-display-empty {
+  color: #999;
+  text-align: center;
+  padding: 40px 0;
+}
+
+.rankings-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.ranking-wrapper {
+  margin-right: 20px;
+  flex: 0 0 auto;
+}
+
+.empty-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #999;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+} 

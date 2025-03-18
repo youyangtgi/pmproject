@@ -132,14 +132,16 @@
   color: #333;
 }
 
+/* 排名样式重新定义 */
 .rank-badge {
   width: 24px;
   height: 24px;
-  display: block;
   background-size: contain;
   background-repeat: no-repeat;
+  background-position: center;
 }
 
+/* 前三名特殊样式 */
 .rank-1 .rank-badge {
   background-image: url('./ranking-img/top1.png');
 }
@@ -152,11 +154,46 @@
   background-image: url('./ranking-img/top3.png');
 }
 
+/* 4-10名容器样式 */
+.rank-number-container {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+/* 4-10名背景样式 */
+.rank-normal {
+  background-image: url('./ranking-img/top_normal.png');
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* 4-10名数字样式 */
+.rank-number {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 2;
+}
+
 .rank-text {
   font-size: 16px;
   font-weight: bold;
   color: #666;
-  margin-right: 5px;
+  position: relative;
+  z-index: 2; /* 确保文字显示在背景图前 */
 }
 
 .user-name {
@@ -184,4 +221,4 @@
 
 .rank-3 {
   background-color: rgba(205, 127, 50, 0.05);
-} 
+}
